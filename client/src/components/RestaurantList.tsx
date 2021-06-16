@@ -1,10 +1,12 @@
-import React, { useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import RestaurantFinder from '../apis/RestaurantFinder'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 import { useHistory } from 'react-router-dom'
-import StarRating from '../components/StarRating'
+import StarRating from './StarRating'
+import { MouseEvent } from 'react'
+import { RestaurantInterface } from '../interfaces/RestaurantInterfaces'
 
-const RestaurantList = (props) => {
+const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext)
   let history = useHistory()
 
@@ -21,14 +23,14 @@ const RestaurantList = (props) => {
     fetchData()
   }, [])
 
-  const handlerUpdate = (e, id) => {
-    e.stopPropagation()
+  const handlerUpdate = (event: MouseEvent<HTMLElement>, id: number) => {
+    event.stopPropagation()
 
     history.push(`/restaurants/${id}/update`)
   }
 
-  const handlerDelete = async (e, id) => {
-    e.stopPropagation()
+  const handlerDelete = async (event: MouseEvent<HTMLElement>, id: number) => {
+    event.stopPropagation()
 
     try {
       await RestaurantFinder.delete(`/${id}`)
@@ -38,11 +40,11 @@ const RestaurantList = (props) => {
     }
   }
 
-  const handleRestaurantSelect = (id) => {
+  const handleRestaurantSelect = (id: number) => {
     history.push(`/restaurants/${id}`)
   }
 
-  const renderRating = (restaurant) => {
+  const renderRating = (restaurant: RestaurantInterface) => {
     if (!restaurant.count) {
       return <span className="text-warning">0 reviews</span>
     }
@@ -77,12 +79,12 @@ const RestaurantList = (props) => {
                 <td>{'$'.repeat(restaurant.price_range)}</td>
                 <td>{renderRating(restaurant)}</td>
                 <td>
-                  <button className="btn btn-warning" onClick={(e) => handlerUpdate(e, restaurant.id)}>
+                  <button className="btn btn-warning" onClick={(event) => handlerUpdate(event, restaurant.id)}>
                     Update
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-danger" onClick={(e) => handlerDelete(e, restaurant.id)}>
+                  <button className="btn btn-danger" onClick={(event) => handlerDelete(event, restaurant.id)}>
                     Delete
                   </button>
                 </td>

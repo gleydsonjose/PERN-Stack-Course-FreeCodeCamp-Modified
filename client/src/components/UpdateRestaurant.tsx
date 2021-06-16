@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, MouseEvent } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import RestaurantFinder from '../apis/RestaurantFinder'
 
 const UpdateRestaurant = () => {
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
   const history = useHistory()
   const [name, setName] = useState('')
   const [location, setLocation] = useState('')
@@ -24,8 +24,8 @@ const UpdateRestaurant = () => {
     fetchData()
   }, [])
 
-  const handlerSubmit = async (e) => {
-    e.preventDefault()
+  const handlerSubmit = async (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
 
     try {
       await RestaurantFinder.put(`/${id}`, {
@@ -69,7 +69,7 @@ const UpdateRestaurant = () => {
           <label htmlFor="price_range">Price Range</label>
           <input
             value={priceRange}
-            onChange={e => setPriceRange(e.target.value)}
+            onChange={event => setPriceRange(event.target.value)}
             id="price_range"
             className="form-control"
             type="number"
@@ -78,7 +78,7 @@ const UpdateRestaurant = () => {
 
         <button
           className="btn btn-primary"
-          onClick={(e) => handlerSubmit(e)}
+          onClick={(event) => handlerSubmit(event)}
         >
           Submit
         </button>

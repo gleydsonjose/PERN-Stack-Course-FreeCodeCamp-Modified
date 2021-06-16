@@ -1,20 +1,20 @@
-import { useState } from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { MouseEvent, useState } from 'react'
+import { useHistory, useLocation, useParams,  } from 'react-router-dom'
 import RestaurantFinder from '../apis/RestaurantFinder'
 
 const AddReview = () => {
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
   const history = useHistory()
   const location = useLocation()
   const [name, setName] = useState('')
   const [reviewText, setReviewText] = useState('')
   const [rating, setRating] = useState('Rating')
 
-  const handleSubmitReview = async (e) => {
-    e.preventDefault()
+  const handleSubmitReview = async (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
 
     try {
-      const response = await RestaurantFinder.post(`/${id}/addReview`, { name, review: reviewText, rating })
+      await RestaurantFinder.post(`/${id}/addReview`, { name, review: reviewText, rating })
       history.push('/')
       history.push(location.pathname)
     } catch (err) {

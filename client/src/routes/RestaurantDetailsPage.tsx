@@ -7,7 +7,7 @@ import StarRating from '../components/StarRating'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 
 const RestaurantDetailsPage = () => {
-  const {id} = useParams()
+  const { id } = useParams<{ id: string }>()
   const {selectedRestaurant, setSelectedRestaurant} = useContext(RestaurantsContext)
 
   useEffect(() => {

@@ -1,9 +1,10 @@
-import StarRating from '../components/StarRating'
+import StarRating from './StarRating'
+import { ReviewsComponentPropsInterface } from '../interfaces/ReviewInterfaces'
 
-const Reviews = ({reviews}) => {
+const Reviews = ({reviews}: ReviewsComponentPropsInterface) => {
   return (
     <div className="row row-cols-3 mb-2">
-      {reviews.map((review) => {
+      {reviews && reviews.map((review) => {
         return (
           <div
             className="card text-white bg-primary mb-3 mr-4"
